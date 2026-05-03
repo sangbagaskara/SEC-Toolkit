@@ -1051,7 +1051,7 @@ footer span { color: var(--red); }
     <div class="tag tag-red-inv" style="margin-bottom:10px;">[ Google Sheets Sync ]</div>
     <div class="sync-bar" style="background:#111;margin-bottom:10px;border-radius:0;">
       <span style="font-weight:700;color:#fff;flex-shrink:0">Apps Script URL:</span>
-      <input type="text" class="gs-url-input" id="gs-url" placeholder="https://script.google.com/macros/s/.../exec" oninput="saveGsUrl()">
+      <input type="text" class="gs-url-input" id="gs-url" placeholder="https://script.google.com/macros/s/.../exec" oninput="saveGsUrl()" value="https://script.google.com/macros/s/AKfycbze6fK4Ny9QnHMCaAdTNu-vG3VFBPXIjGxX6pC_QwS_4zxwbCbl1vVob_nwTAJzitgzCg/exec">
     </div>
     <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
       <button class="btn" style="font-size:10px;padding:8px 14px;" onclick="syncToSheets()">↑ Push ke Sheets</button>
@@ -1235,11 +1235,14 @@ function loadTx() {
 function saveGsUrl() {
   try { localStorage.setItem('sec_gs_url', document.getElementById('gs-url').value); } catch(e){}
 }
+const GS_URL_DEFAULT = 'https://script.google.com/macros/s/AKfycbze6fK4Ny9QnHMCaAdTNu-vG3VFBPXIjGxX6pC_QwS_4zxwbCbl1vVob_nwTAJzitgzCg/exec';
 function loadGsUrl() {
   try {
-    const u = localStorage.getItem('sec_gs_url');
-    if (u) document.getElementById('gs-url').value = u;
-  } catch(e){}
+    const u = localStorage.getItem('sec_gs_url') || GS_URL_DEFAULT;
+    document.getElementById('gs-url').value = u;
+  } catch(e){
+    document.getElementById('gs-url').value = GS_URL_DEFAULT;
+  }
 }
 
 // ── DATE UTILS ──
@@ -1400,7 +1403,7 @@ function exportCSV() {
 
 // ── GOOGLE SHEETS SYNC ──
 function getGsUrl() {
-  return (document.getElementById('gs-url').value || '').trim();
+  return (document.getElementById('gs-url').value || GS_URL_DEFAULT).trim();
 }
 function setStatus(msg, cls) {
   const el = document.getElementById('sync-status');

@@ -500,6 +500,50 @@ footer span { color: var(--red); }
   .grid-2 { grid-template-columns: 1fr; }
   .grid-3 { grid-template-columns: 1fr; }
 }
+
+/* ── KEUANGAN TAB ── */
+.keu-form-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px; }
+.keu-field { display:flex; flex-direction:column; gap:3px; }
+.keu-field label { font-size:9px; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted); }
+.keu-field input, .keu-field select {
+  background:var(--bg); border:1px solid var(--ink); color:var(--ink);
+  font-family:var(--mono); font-size:12px; padding:7px 9px;
+  outline:none; appearance:none; -webkit-appearance:none; width:100%;
+}
+.keu-field input:focus, .keu-field select:focus { border-color:var(--red); outline:2px solid var(--red); outline-offset:-2px; }
+.keu-field.full { grid-column:1/-1; }
+.keu-summary-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:1px; background:var(--ink); margin-bottom:1px; }
+.keu-stat { background:var(--bg); padding:12px 14px; }
+.keu-stat .ks-label { font-size:9px; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted); margin-bottom:3px; }
+.keu-stat .ks-val { font-family:var(--display); font-size:clamp(1.4rem,5vw,2rem); line-height:1; letter-spacing:-0.02em; }
+.keu-stat .ks-sub { font-size:10px; color:var(--muted); margin-top:3px; }
+.tx-table { width:100%; border-collapse:collapse; font-size:11px; }
+.tx-table th { font-size:9px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); font-weight:700; padding:6px 8px; border-bottom:2px solid var(--ink); text-align:left; background:var(--bg); }
+.tx-table td { padding:7px 8px; border-bottom:1px solid #ccc; color:var(--muted); vertical-align:top; }
+.tx-table td strong { color:var(--ink); font-weight:700; display:block; font-size:11px; }
+.tx-table tr:hover td { background:#ECEAE5; }
+.badge-rev { background:#EAF3DE; color:#3B6D11; font-size:9px; font-weight:700; padding:2px 6px; letter-spacing:0.1em; text-transform:uppercase; }
+.badge-opex { background:#FCEBEB; color:#A32D2D; font-size:9px; font-weight:700; padding:2px 6px; letter-spacing:0.1em; text-transform:uppercase; }
+.badge-capex { background:#E6F1FB; color:#185FA5; font-size:9px; font-weight:700; padding:2px 6px; letter-spacing:0.1em; text-transform:uppercase; }
+.badge-pending { background:#FAEEDA; color:#854F0B; font-size:9px; font-weight:700; padding:2px 6px; letter-spacing:0.1em; text-transform:uppercase; }
+.sync-bar { padding:10px 14px; background:var(--ink); color:#ccc; font-size:10px; letter-spacing:0.08em; display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+.sync-status { font-size:10px; letter-spacing:0.08em; }
+.sync-ok { color:#4CAF50; }
+.sync-err { color:var(--red); }
+.sync-loading { color:#EF9F27; }
+.gs-url-input { background:#1a1a1a; border:1px solid #333; color:#ccc; font-family:var(--mono); font-size:10px; padding:6px 8px; flex:1; min-width:200px; outline:none; }
+.gs-url-input:focus { border-color:var(--red); }
+.del-btn { background:none; border:none; color:#666; cursor:pointer; font-size:14px; padding:2px 4px; font-family:var(--mono); }
+.del-btn:hover { color:var(--red); }
+.empty-state { padding:24px; text-align:center; font-size:12px; color:var(--muted); letter-spacing:0.05em; }
+.period-tabs { display:flex; gap:0; border-bottom:1px solid var(--ink); }
+.period-tab { font-family:var(--mono); font-size:10px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; background:none; border:none; border-right:1px solid var(--ink); padding:8px 12px; cursor:pointer; color:var(--muted); border-bottom:3px solid transparent; margin-bottom:-1px; }
+.period-tab.active { color:var(--red); border-bottom-color:var(--red); }
+.progress-wrap { margin-top:8px; }
+.progress-label { display:flex; justify-content:space-between; font-size:10px; color:var(--muted); margin-bottom:4px; letter-spacing:0.05em; }
+.progress-track { height:6px; background:#ddd; border:1px solid var(--ink); overflow:hidden; }
+.progress-bar-fill { height:100%; background:var(--red); transition:width .4s; }
+@media(max-width:520px){ .keu-form-grid{grid-template-columns:1fr;} }
 </style>
 </head>
 <body>
@@ -516,6 +560,7 @@ footer span { color: var(--red); }
     <button class="nav-tab active" onclick="showSection('strategy',this)">[ Strategy ]</button>
     <button class="nav-tab" onclick="showSection('checklist',this)">[ Checklist ]</button>
     <button class="nav-tab" onclick="showSection('caption',this)">[ Caption ]</button>
+    <button class="nav-tab" onclick="showSection('keuangan',this)">[ Keuangan ]</button>
   </div>
 </nav>
 
@@ -871,6 +916,156 @@ footer span { color: var(--red); }
 </section>
 
 <!-- FOOTER -->
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION 4 — KEUANGAN
+     ═══════════════════════════════════════════════════════════ -->
+<section class="section" id="sec-keuangan">
+
+  <div class="hstrip">
+    <div class="hstrip-title">Catatan<br><em>Keuangan</em></div>
+    <div class="hstrip-meta">
+      SECOND ERA CO.<br>
+      OPEX · CAPEX · REV<br>
+      REV 1.0
+    </div>
+  </div>
+
+  <div class="div-red"></div>
+
+  <!-- SUMMARY STATS -->
+  <div class="keu-summary-grid" id="keu-summary">
+    <div class="keu-stat">
+      <div class="ks-label">Total Revenue</div>
+      <div class="ks-val" id="s-rev" style="color:var(--red)">Rp0</div>
+      <div class="ks-sub" id="s-rev-cnt">0 transaksi</div>
+    </div>
+    <div class="keu-stat">
+      <div class="ks-label">Total OPEX</div>
+      <div class="ks-val" id="s-opex">Rp0</div>
+      <div class="ks-sub" id="s-opex-cnt">0 item</div>
+    </div>
+    <div class="keu-stat">
+      <div class="ks-label">Total CAPEX</div>
+      <div class="ks-val" id="s-capex">Rp0</div>
+      <div class="ks-sub" id="s-capex-cnt">0 item</div>
+    </div>
+    <div class="keu-stat">
+      <div class="ks-label">Net Profit</div>
+      <div class="ks-val" id="s-net">Rp0</div>
+      <div class="ks-sub" id="s-net-pct">margin 0%</div>
+    </div>
+  </div>
+
+  <!-- PROGRESS TO TARGET -->
+  <div class="cell" style="border-bottom:1px solid #ccc;">
+    <div class="tag tag-inv">Progress ke Target Rp5 Juta/Bulan</div>
+    <div class="progress-wrap">
+      <div class="progress-label">
+        <span id="prog-label">Rp0 dari Rp5.000.000</span>
+        <span id="prog-pct">0%</span>
+      </div>
+      <div class="progress-track"><div class="progress-bar-fill" id="prog-fill" style="width:0%"></div></div>
+    </div>
+  </div>
+
+  <!-- PERIOD FILTER -->
+  <div class="period-tabs">
+    <button class="period-tab active" onclick="setPeriod('all',this)">Semua</button>
+    <button class="period-tab" onclick="setPeriod('month',this)">Bulan Ini</button>
+    <button class="period-tab" onclick="setPeriod('last',this)">Bulan Lalu</button>
+    <button class="period-tab" onclick="setPeriod('week',this)">Minggu Ini</button>
+  </div>
+
+  <!-- FORM INPUT -->
+  <div class="cell" style="border-bottom:1px solid #ccc;">
+    <div class="tag tag-red-inv">[ + ] Tambah Transaksi</div>
+    <div class="keu-form-grid">
+      <div class="keu-field">
+        <label>Tanggal</label>
+        <input type="date" id="k-date">
+      </div>
+      <div class="keu-field">
+        <label>Jenis</label>
+        <select id="k-type">
+          <option value="revenue">Revenue (Penjualan)</option>
+          <option value="opex">OPEX (Biaya Operasional)</option>
+          <option value="capex">CAPEX (Investasi Aset)</option>
+        </select>
+      </div>
+      <div class="keu-field">
+        <label>Kategori</label>
+        <select id="k-cat">
+          <option value="Penjualan Kemeja">Penjualan Kemeja</option>
+          <option value="Transport Pasar Senen">Transport Pasar Senen</option>
+          <option value="Modal Beli Baju">Modal Beli Baju</option>
+          <option value="Packaging">Packaging</option>
+          <option value="Shopee Ads">Shopee Ads</option>
+          <option value="Fee Shopee">Fee Shopee</option>
+          <option value="Foto/Equipment">Foto/Equipment</option>
+          <option value="Lainnya">Lainnya</option>
+        </select>
+      </div>
+      <div class="keu-field">
+        <label>Jumlah (Rp)</label>
+        <input type="number" id="k-amount" placeholder="cth: 185000" min="0">
+      </div>
+      <div class="keu-field full">
+        <label>Keterangan</label>
+        <input type="text" id="k-note" placeholder="cth: Kemeja Uniqlo navy size L → buyer Jakarta">
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+      <button class="btn btn-red" onclick="addTransaction()">Tambah Transaksi</button>
+      <span class="copied-msg" id="tx-added-msg" style="color:var(--red)">Tersimpan!</span>
+    </div>
+  </div>
+
+  <!-- TRANSACTION LIST -->
+  <div class="cell" style="padding:0;border-bottom:1px solid #ccc;">
+    <div style="padding:10px 14px 6px;border-bottom:1px solid #ccc;display:flex;justify-content:space-between;align-items:center;">
+      <div class="tag tag-ink" style="margin:0">[ Log Transaksi ]</div>
+      <button class="btn btn-outline" style="font-size:9px;padding:5px 10px;" onclick="exportCSV()">Export CSV</button>
+    </div>
+    <div style="overflow-x:auto;">
+      <table class="tx-table" id="tx-table">
+        <thead>
+          <tr>
+            <th>Tanggal</th>
+            <th>Jenis</th>
+            <th>Kategori</th>
+            <th>Keterangan</th>
+            <th style="text-align:right">Jumlah</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="tx-body">
+          <tr><td colspan="6" class="empty-state">Belum ada transaksi. Tambahkan di atas.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- GOOGLE SHEETS SYNC -->
+  <div class="cell-dark" style="border-bottom:1px solid #333;">
+    <div class="tag tag-red-inv" style="margin-bottom:10px;">[ Google Sheets Sync ]</div>
+    <div class="sync-bar" style="background:#111;margin-bottom:10px;border-radius:0;">
+      <span style="font-weight:700;color:#fff;flex-shrink:0">Apps Script URL:</span>
+      <input type="text" class="gs-url-input" id="gs-url" placeholder="https://script.google.com/macros/s/.../exec" oninput="saveGsUrl()">
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+      <button class="btn" style="font-size:10px;padding:8px 14px;" onclick="syncToSheets()">↑ Push ke Sheets</button>
+      <button class="btn btn-outline" style="font-size:10px;padding:8px 14px;color:#ccc;border-color:#555;" onclick="pullFromSheets()">↓ Pull dari Sheets</button>
+      <span class="sync-status" id="sync-status">—</span>
+    </div>
+    <div style="margin-top:10px;font-size:10px;color:#666;line-height:1.6;letter-spacing:0.03em;">
+      Paste URL Apps Script Web App di kolom atas. Setelah deploy, data otomatis tersinkron dengan Google Sheets.<br>
+      Lihat file <strong style="color:#888">sec-appscript.gs</strong> untuk setup Apps Script.
+    </div>
+  </div>
+
+</section>
+
 <footer>
   <span>SEC</span> &nbsp; Second Era Co. — Seller Toolkit &nbsp; REV 1.0 &nbsp; 2025
   <span>Timeless Style. Signature Scent.</span>
@@ -1016,6 +1211,263 @@ function copyCaption() {
   });
 }
 renderKW();
+
+
+// ════════════════════════════════════════════════════════
+// ── KEUANGAN MODULE ──
+// ════════════════════════════════════════════════════════
+
+const TARGET_MONTHLY = 5000000;
+let transactions = [];
+let currentPeriod = 'all';
+
+// ── STORAGE ──
+function saveTx() {
+  try { localStorage.setItem('sec_tx', JSON.stringify(transactions)); } catch(e){}
+}
+function loadTx() {
+  try {
+    const d = localStorage.getItem('sec_tx');
+    if (d) transactions = JSON.parse(d);
+  } catch(e){ transactions = []; }
+  renderAll();
+}
+function saveGsUrl() {
+  try { localStorage.setItem('sec_gs_url', document.getElementById('gs-url').value); } catch(e){}
+}
+function loadGsUrl() {
+  try {
+    const u = localStorage.getItem('sec_gs_url');
+    if (u) document.getElementById('gs-url').value = u;
+  } catch(e){}
+}
+
+// ── DATE UTILS ──
+function todayStr() {
+  return new Date().toISOString().slice(0,10);
+}
+function isThisMonth(dateStr) {
+  const now = new Date();
+  const d = new Date(dateStr);
+  return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth();
+}
+function isLastMonth(dateStr) {
+  const now = new Date();
+  const last = new Date(now.getFullYear(), now.getMonth()-1, 1);
+  const d = new Date(dateStr);
+  return d.getFullYear() === last.getFullYear() && d.getMonth() === last.getMonth();
+}
+function isThisWeek(dateStr) {
+  const now = new Date();
+  const d = new Date(dateStr);
+  const diffDays = Math.floor((now - d) / 86400000);
+  return diffDays >= 0 && diffDays < 7;
+}
+function filterTx() {
+  if (currentPeriod === 'all') return transactions;
+  if (currentPeriod === 'month') return transactions.filter(t => isThisMonth(t.date));
+  if (currentPeriod === 'last') return transactions.filter(t => isLastMonth(t.date));
+  if (currentPeriod === 'week') return transactions.filter(t => isThisWeek(t.date));
+  return transactions;
+}
+function setPeriod(p, el) {
+  currentPeriod = p;
+  document.querySelectorAll('.period-tab').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  renderAll();
+}
+
+// ── FORMAT ──
+function fmtRpFull(n) {
+  if (!n && n !== 0) return 'Rp0';
+  return 'Rp' + Math.abs(Math.round(n)).toLocaleString('id-ID');
+}
+function fmtDate(str) {
+  if (!str) return '-';
+  const [y,m,d] = str.split('-');
+  const months = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ags','Sep','Okt','Nov','Des'];
+  return d + ' ' + months[parseInt(m)-1] + ' ' + y;
+}
+
+// ── ADD TRANSACTION ──
+function addTransaction() {
+  const date = document.getElementById('k-date').value || todayStr();
+  const type = document.getElementById('k-type').value;
+  const cat  = document.getElementById('k-cat').value;
+  const amt  = parseFloat(document.getElementById('k-amount').value);
+  const note = document.getElementById('k-note').value.trim();
+
+  if (!amt || amt <= 0) { alert('Masukkan jumlah yang valid.'); return; }
+
+  const tx = {
+    id: Date.now().toString(),
+    date, type, cat, amount: amt, note,
+    createdAt: new Date().toISOString()
+  };
+  transactions.unshift(tx);
+  saveTx();
+  renderAll();
+
+  // Reset form
+  document.getElementById('k-amount').value = '';
+  document.getElementById('k-note').value = '';
+  document.getElementById('k-date').value = todayStr();
+
+  // Feedback
+  const msg = document.getElementById('tx-added-msg');
+  msg.classList.add('show');
+  setTimeout(() => msg.classList.remove('show'), 2000);
+}
+
+// ── DELETE ──
+function deleteTx(id) {
+  if (!confirm('Hapus transaksi ini?')) return;
+  transactions = transactions.filter(t => t.id !== id);
+  saveTx();
+  renderAll();
+}
+
+// ── RENDER SUMMARY ──
+function renderSummary(filtered) {
+  const rev   = filtered.filter(t => t.type === 'revenue').reduce((s,t) => s+t.amount, 0);
+  const opex  = filtered.filter(t => t.type === 'opex').reduce((s,t) => s+t.amount, 0);
+  const capex = filtered.filter(t => t.type === 'capex').reduce((s,t) => s+t.amount, 0);
+  const net   = rev - opex - capex;
+  const margin = rev > 0 ? Math.round(net/rev*100) : 0;
+
+  document.getElementById('s-rev').textContent = fmtRpFull(rev);
+  document.getElementById('s-rev-cnt').textContent = filtered.filter(t=>t.type==='revenue').length + ' transaksi';
+  document.getElementById('s-opex').textContent = fmtRpFull(opex);
+  document.getElementById('s-opex-cnt').textContent = filtered.filter(t=>t.type==='opex').length + ' item';
+  document.getElementById('s-capex').textContent = fmtRpFull(capex);
+  document.getElementById('s-capex-cnt').textContent = filtered.filter(t=>t.type==='capex').length + ' item';
+  document.getElementById('s-net').textContent = fmtRpFull(net);
+  document.getElementById('s-net').style.color = net >= 0 ? 'var(--ink)' : 'var(--red)';
+  document.getElementById('s-net-pct').textContent = 'margin ' + margin + '%';
+
+  // Progress bar (based on current month revenue always)
+  const monthRev = transactions.filter(t => t.type==='revenue' && isThisMonth(t.date)).reduce((s,t)=>s+t.amount,0);
+  const pct = Math.min(Math.round(monthRev/TARGET_MONTHLY*100), 100);
+  document.getElementById('prog-label').textContent = fmtRpFull(monthRev) + ' dari ' + fmtRpFull(TARGET_MONTHLY);
+  document.getElementById('prog-pct').textContent = pct + '%';
+  document.getElementById('prog-fill').style.width = pct + '%';
+}
+
+// ── RENDER TABLE ──
+function renderTable(filtered) {
+  const tbody = document.getElementById('tx-body');
+  if (filtered.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="6" class="empty-state">Tidak ada transaksi untuk periode ini.</td></tr>';
+    return;
+  }
+  const sorted = [...filtered].sort((a,b) => b.date.localeCompare(a.date));
+  tbody.innerHTML = sorted.map(t => {
+    const badgeClass = t.type === 'revenue' ? 'badge-rev' : t.type === 'opex' ? 'badge-opex' : 'badge-capex';
+    const badgeLabel = t.type === 'revenue' ? 'REVENUE' : t.type === 'opex' ? 'OPEX' : 'CAPEX';
+    const sign = t.type === 'revenue' ? '+' : '-';
+    const color = t.type === 'revenue' ? '#3B6D11' : 'var(--red)';
+    return `<tr>
+      <td style="white-space:nowrap;color:var(--muted)">${fmtDate(t.date)}</td>
+      <td><span class="${badgeClass}">${badgeLabel}</span></td>
+      <td><strong>${t.cat}</strong>${t.note ? t.note : ''}</td>
+      <td style="white-space:nowrap;color:var(--muted);font-size:10px;max-width:160px;overflow:hidden;text-overflow:ellipsis">${t.note||'—'}</td>
+      <td style="text-align:right;font-weight:700;color:${color};white-space:nowrap;font-family:var(--mono)">${sign}${fmtRpFull(t.amount)}</td>
+      <td><button class="del-btn" onclick="deleteTx('${t.id}')">×</button></td>
+    </tr>`;
+  }).join('');
+}
+
+function renderAll() {
+  const filtered = filterTx();
+  renderSummary(filtered);
+  renderTable(filtered);
+}
+
+// ── EXPORT CSV ──
+function exportCSV() {
+  if (transactions.length === 0) { alert('Belum ada transaksi.'); return; }
+  const header = ['ID','Tanggal','Jenis','Kategori','Keterangan','Jumlah'];
+  const rows = transactions.map(t =>
+    [t.id, t.date, t.type, t.cat, '"' + (t.note||'').replace(/"/g,'""') + '"', t.amount].join(',')
+  );
+  const csv = [header.join(','), ...rows].join('\n');
+  const blob = new Blob([csv], {type:'text/csv'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'sec-keuangan-' + todayStr() + '.csv';
+  a.click(); URL.revokeObjectURL(url);
+}
+
+// ── GOOGLE SHEETS SYNC ──
+function getGsUrl() {
+  return (document.getElementById('gs-url').value || '').trim();
+}
+function setStatus(msg, cls) {
+  const el = document.getElementById('sync-status');
+  el.textContent = msg;
+  el.className = 'sync-status ' + (cls||'');
+}
+
+async function syncToSheets() {
+  const url = getGsUrl();
+  if (!url) { setStatus('Masukkan Apps Script URL dulu.', 'sync-err'); return; }
+  if (transactions.length === 0) { setStatus('Tidak ada data untuk di-push.', 'sync-err'); return; }
+  setStatus('Meng-upload...', 'sync-loading');
+  try {
+    const payload = { action: 'push', data: transactions };
+    const resp = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const result = await resp.json();
+    if (result.status === 'ok') {
+      setStatus('✓ Push berhasil — ' + result.count + ' baris', 'sync-ok');
+    } else {
+      setStatus('Error: ' + (result.message||'unknown'), 'sync-err');
+    }
+  } catch(e) {
+    // CORS fallback — try no-cors
+    try {
+      await fetch(url, {
+        method: 'POST', mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify({ action: 'push', data: transactions })
+      });
+      setStatus('✓ Push dikirim (no-cors mode)', 'sync-ok');
+    } catch(e2) {
+      setStatus('Gagal: ' + e2.message, 'sync-err');
+    }
+  }
+}
+
+async function pullFromSheets() {
+  const url = getGsUrl();
+  if (!url) { setStatus('Masukkan Apps Script URL dulu.', 'sync-err'); return; }
+  setStatus('Menarik data...', 'sync-loading');
+  try {
+    const resp = await fetch(url + '?action=pull', { method: 'GET' });
+    const result = await resp.json();
+    if (result.status === 'ok' && Array.isArray(result.data)) {
+      transactions = result.data;
+      saveTx();
+      renderAll();
+      setStatus('✓ Pull berhasil — ' + result.data.length + ' transaksi', 'sync-ok');
+    } else {
+      setStatus('Error: ' + (result.message||'unknown'), 'sync-err');
+    }
+  } catch(e) {
+    setStatus('Gagal: ' + e.message + ' (cek CORS setting di Apps Script)', 'sync-err');
+  }
+}
+
+// ── INIT ──
+(function initKeuangan() {
+  document.getElementById('k-date').value = todayStr();
+  loadTx();
+  loadGsUrl();
+})();
+
 </script>
 </body>
 </html>
